@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.STREAM_JWT_SECRET; // store in Cloud Run env
 const JWT_EXPIRY = "20s"; // short lived
-const StreamingUrl = 'wss://istha-crs-ivr-relay-server-dev-199285348292.us-central1.run.app/media'
+const StreamingUrl = 'wss://istha-twilio-streaming-server-100251281488.us-central1.run.app/streaming'
 router.get("/", (req, res) => res.send("send successfully"));
 
 router.get("/call-start", (req, res) => res.send("OK"));
