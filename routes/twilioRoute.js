@@ -12,7 +12,7 @@ router.post("/call-start", async (req, res) => {
   console.log("Twilio call-start webhook hit",req,res);
   		
   const jwtPayload = { callSid: 'acmsdifvdifh2234efsdcvsrd' };
-  const token = generateStreamToken(jwtPayload)
+  const token = generateStreamToken(jwtPayload);
     const twiml = `
 <Response>
   <Start>
@@ -23,7 +23,7 @@ router.post("/call-start", async (req, res) => {
   <Say>Streaming started!</Say>
 </Response>
 `;
-  console.log('send twiml')
+  console.log('send twiml');
  
 res.set("Content-Type", "text/xml");
 res.send(twiml);
