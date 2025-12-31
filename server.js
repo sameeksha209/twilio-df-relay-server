@@ -1,11 +1,16 @@
 'use strict';
-require("dotenv").config();
-const twilioRoutes = require("../../routes/twilioRoutes");
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 const express = require("express");
 const app = express();
- 
+
+const twilioRoutes = require("./routes/twilioRoute");
+
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // Logging middleware
 app.use((req, res, next) => {
@@ -13,14 +18,11 @@ app.use((req, res, next) => {
   next();
 });
 
-// Load Routes
+// Routes
 app.use("/", twilioRoutes);
 
-// Start Server + WebSocket
+// Start server
 const port = process.env.PORT || 8080;
-const server = app.listen(port, "0.0.0.0", () =>
-  console.log(`Server listening on port ${port}`)
-);
-
-// WebSocket handler
-require("./websocket/mediasocket")(server);
+app.listen(port, "0.0.0.0", () => {
+  console.log(`Server listening on port ${port}`);
+});
