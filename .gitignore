@@ -1,4 +1,3 @@
-google_creds.json
 *.json
 node_modules/
 .env
