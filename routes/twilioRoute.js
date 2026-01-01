@@ -22,7 +22,7 @@ router.post("/call-start", async (req, res) => {
   connect.stream({
     url: StreamingUrl,
     token: token,
-    statusCallback: 'https://csrservice-7670-dev.twil.io/checkCallbackStatus',
+    statusCallback: 'https://csrservice-7670-dev.twil.io/checkCallbackStatus/stream-status',
     statusCallbackMethod: 'POST'
   });
 
