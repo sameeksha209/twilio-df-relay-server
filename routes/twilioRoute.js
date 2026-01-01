@@ -19,9 +19,11 @@ router.post("/call-start", async (req, res) => {
    const connect = twiml.connect();
 
   // STREAM URL (no quotes)
-  const stream = connect.stream({
+  connect.stream({
     url: StreamingUrl,
-    token: token
+    token: token,
+    statusCallback: StreamingUrl,
+    statusCallbackMethod: 'POST'
   });
 
 //     const twiml = `
