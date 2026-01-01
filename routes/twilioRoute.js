@@ -13,7 +13,6 @@ router.get("/call-start", (req, res) => res.send("OK"));
 
 router.post("/call-start", async (req, res) => {
   console.log("Twilio call-start webhook hit", req.body, req.body.callsid);
-  console.log("test");
   		
   const jwtPayload = { callSid: req.body.callsid };
   const token = generateStreamToken(jwtPayload);
@@ -23,7 +22,7 @@ router.post("/call-start", async (req, res) => {
   connect.stream({
     url: StreamingUrl,
     token: token,
-    statusCallback: 'https://csrservice-7670-dev.twil.io/checkCallbackStatus/stream-status',
+    statusCallback: 'https://csrservice-7670-dev.twil.io/checkCallbackStatus',
     statusCallbackMethod: 'POST'
   });
 
