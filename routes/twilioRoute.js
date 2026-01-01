@@ -19,7 +19,7 @@ router.post("/call-start", async (req, res) => {
    const connect = twiml.connect();
 
   // STREAM URL (no quotes)
-  connect.stream({
+  const stream = connect.stream({
     url: StreamingUrl,
     token: token
   });
@@ -37,7 +37,7 @@ router.post("/call-start", async (req, res) => {
   console.log('send twiml');
  
 res.set("Content-Type", "text/xml");
-res.send('done');
+res.send('done',stream);
 
 });
 
