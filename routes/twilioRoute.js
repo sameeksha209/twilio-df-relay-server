@@ -37,7 +37,7 @@ router.post("/call-start", async (req, res) => {
   console.log('send twiml',twiml.toString());
  
 res.set("Content-Type", "text/xml");
-res.send('done',twiml.toString());
+res.send(twiml.toString());
 
 });
 
