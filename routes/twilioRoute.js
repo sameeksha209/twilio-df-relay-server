@@ -44,6 +44,19 @@ res.send(twiml.toString());
 
 });
 
+router.post('/stream-status', (req, res) => {
+  console.log('Twilio Stream Status Callback received');
+ 
+  console.log({
+    CallSid: req.body.CallSid,
+    StreamSid: req.body.StreamSid,
+    StreamEvent: req.body.StreamEvent,
+    StreamError: req.body.StreamError,
+    Timestamp: req.body.Timestamp,
+  });
+  res.send('ok');
+});
+ 
 function generateStreamToken(payload) {
   return jwt.sign(
     payload,
