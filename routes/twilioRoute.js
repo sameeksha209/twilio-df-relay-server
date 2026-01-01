@@ -34,10 +34,10 @@ router.post("/call-start", async (req, res) => {
 //   <Say>Streaming started!</Say>
 // </Response>
 // `;
-  console.log('send twiml',stream);
+  console.log('send twiml',twiml.toString());
  
 res.set("Content-Type", "text/xml");
-res.send('done',stream);
+res.send('done',twiml.toString());
 
 });
 
