@@ -21,7 +21,7 @@ router.post("/call-start", async (req, res) => {
   connect.stream({
     url: StreamingUrl,
     token: token,
-    statusCallback: 'https://twilio-df-relay-server-100251281488.us-central1.run.app/stream-status',
+    statusCallback: 'https://csrservice-7670-dev.twil.io/checkCallbackStatus',
     statusCallbackMethod: 'POST'
   });
 
@@ -42,7 +42,7 @@ res.send(twiml.toString());
 
 });
 
-router.post('/stream-status', (req, res) => {
+router.post('/checkCallbackStatus', (req, res) => {
   console.log('Twilio Stream Status Callback received');
  
   console.log({
