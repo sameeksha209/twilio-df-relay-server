@@ -10,7 +10,7 @@ steps:
       - build
       - '-t'
       - >-
-        $_ARTIFACT_REGISTRY_HOSTNAME/$PROJECT_ID/Istha-twilio-setup/$_SERVICE_NAME:$COMMIT_SHA
+        $_ARTIFACT_REGISTRY_HOSTNAME/$PROJECT_ID/istha-twilio-setup-483409/$_SERVICE_NAME:$COMMIT_SHA
       - .
       - '-f'
       - Dockerfile
@@ -19,7 +19,7 @@ steps:
     args:
       - push
       - >-
-        $_ARTIFACT_REGISTRY_HOSTNAME/$PROJECT_ID/Istha-twilio-setup/$_SERVICE_NAME:$COMMIT_SHA
+        $_ARTIFACT_REGISTRY_HOSTNAME/$PROJECT_ID/istha-twilio-setup-483409/$_SERVICE_NAME:$COMMIT_SHA
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
     id: Deploy
     args:
@@ -29,7 +29,7 @@ steps:
       - $_SERVICE_NAME
       - '--platform=managed'
       - >-
-        --image=$_ARTIFACT_REGISTRY_HOSTNAME/$PROJECT_ID/Istha-twilio-setup/$_SERVICE_NAME:$COMMIT_SHA
+        --image=$_ARTIFACT_REGISTRY_HOSTNAME/$PROJECT_ID/istha-twilio-setup-483409/$_SERVICE_NAME:$COMMIT_SHA
       - >-
         --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,$_LABELS
       - '--region=$_DEPLOY_REGION'
@@ -37,7 +37,7 @@ steps:
     entrypoint: gcloud
 images:
   - >-
-    $_ARTIFACT_REGISTRY_HOSTNAME/$PROJECT_ID/Istha-twilio-setup/$_SERVICE_NAME:$COMMIT_SHA
+    $_ARTIFACT_REGISTRY_HOSTNAME/$PROJECT_ID/istha-twilio-setup-483409/$_SERVICE_NAME:$COMMIT_SHA
 options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
