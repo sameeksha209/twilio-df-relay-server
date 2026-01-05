@@ -6,7 +6,6 @@ const JWT_SECRET = process.env.STREAM_JWT_SECRET; // store in Cloud Run env
 const JWT_EXPIRY = "20s"; // short lived
 const StreamingUrl = 'wss://istha-twilio-streaming-server-100251281488.us-central1.run.app/streaming'
 const twiml = new twilio.twiml.VoiceResponse();
-
 router.get("/", (req, res) => res.send("send successfully"));
 
 router.get("/call-start", (req, res) => res.send("OK"));
@@ -22,7 +21,7 @@ router.post("/call-start", async (req, res) => {
   connect.stream({
     url: StreamingUrl,
     token: token,
-    statusCallback: 'https://csrservice-7670-dev.twil.io/checkCallbackStatus/stream-status',
+    statusCallback: 'https://csrservice-7670-dev.twil.io/checkCallbackStatus',
     statusCallbackMethod: 'POST'
   });
 
@@ -43,6 +42,19 @@ res.send(twiml.toString());
 
 });
 
+router.post('/checkCallbackStatus', (req, res) => {
+  console.log('Twilio Stream Status Callback received');
+ 
+  console.log({
+    CallSid: req.body.CallSid,
+    StreamSid: req.body.StreamSid,
+    StreamEvent: req.body.StreamEvent,
+    StreamError: req.body.StreamError,
+    Timestamp: req.body.Timestamp,
+  });
+  res.send('ok');
+});
+ 
 function generateStreamToken(payload) {
   return jwt.sign(
     payload,
