@@ -12,6 +12,9 @@ router.get("/call-start", (req, res) => res.send("OK"));
 
 router.post("/call-start", async (req, res) => {
   console.log("Twilio call-start webhook hit", req.body, req.body.callsid);
+  const start = Date.now(); // Start time
+
+  console.log(`[${new Date().toISOString()}] Webhook hit`);
   const twiml = new twilio.twiml.VoiceResponse(); // ✅ MOVE HERE
 
   const jwtPayload = { callSid: req.body.CallSid };
@@ -51,7 +54,8 @@ router.post("/call-start", async (req, res) => {
 // </Response>
 // `;
   console.log('send twiml',twiml.toString());
- 
+ const end = Date.now(); // End time after sending response
+  console.log(`[${new Date().toISOString()}] TwiML sent. Duration: ${end - start} ms`);
 // res.set("Content-Type", "text/xml");
 // res.send(twiml.toString());
 
