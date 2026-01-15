@@ -5,25 +5,40 @@ const twilio = require('twilio')
 const JWT_SECRET = process.env.STREAM_JWT_SECRET; // store in Cloud Run env
 const JWT_EXPIRY = "20s"; // short lived
 const StreamingUrl = 'wss://istha-twilio-streaming-server-950877446598.us-central1.run.app/streaming'
-const twiml = new twilio.twiml.VoiceResponse();
+// const twiml = new twilio.twiml.VoiceResponse();
 router.get("/", (req, res) => res.send("send successfully"));
 
 router.get("/call-start", (req, res) => res.send("OK"));
 
 router.post("/call-start", async (req, res) => {
   console.log("Twilio call-start webhook hit", req.body, req.body.callsid);
-  		
-  const jwtPayload = { callSid: req.body.callsid };
-  const token = generateStreamToken(jwtPayload);
-   const connect = twiml.connect();
+  const twiml = new twilio.twiml.VoiceResponse(); // ✅ MOVE HERE
 
-  // STREAM URL (no quotes)
+  const jwtPayload = { callSid: req.body.CallSid };
+  const token = generateStreamToken(jwtPayload);
+
+  const connect = twiml.connect();
   connect.stream({
     url: StreamingUrl,
-    token: token,
+    token,
     statusCallback: 'https://csrservice-7670-dev.twil.io/checkCallbackStatus',
     statusCallbackMethod: 'POST'
   });
+
+  res.type("text/xml");
+  res.send(twiml.toString());
+  		
+  // const jwtPayload = { callSid: req.body.callsid };
+  // const token = generateStreamToken(jwtPayload);
+  //  const connect = twiml.connect();
+
+  // // STREAM URL (no quotes)
+  // connect.stream({
+  //   url: StreamingUrl,
+  //   token: token,
+  //   statusCallback: 'https://csrservice-7670-dev.twil.io/checkCallbackStatus',
+  //   statusCallbackMethod: 'POST'
+  // });
 
 //     const twiml = `
 // <Response>
@@ -37,8 +52,8 @@ router.post("/call-start", async (req, res) => {
 // `;
   console.log('send twiml',twiml.toString());
  
-res.set("Content-Type", "text/xml");
-res.send(twiml.toString());
+// res.set("Content-Type", "text/xml");
+// res.send(twiml.toString());
 
 });
 
