@@ -11,7 +11,7 @@ router.get("/", (req, res) => res.send("send successfully"));
 router.get("/call-start", (req, res) => res.send("OK"));
 
 router.post("/call-start", async (req, res) => {
-  console.log("Twilio call-start webhook hit", req.body, req.body.callsid);Callsid
+  console.log("Twilio call-start webhook hit", req.body, req.body.CallSid)
   try{
   const start = Date.now(); // Start time
 
