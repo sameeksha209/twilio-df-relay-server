@@ -21,17 +21,18 @@ router.post("/call-start", async (req, res) => {
   const jwtPayload = { callSid: req.body.CallSid };
   const token = generateStreamToken(jwtPayload);
 
-  const connect = twiml.connect();
-  connect.stream({
-    // url: StreamingUrl,
-    token,
-    // statusCallback: 'https://csrservice-7670-dev.twil.io/checkCallbackStatus',
-    // statusCallbackMethod: 'POST'
-  });
+  // const connect = twiml.connect();
+  // connect.stream({
+  //   url: StreamingUrl,
+  //   token,
+  //   statusCallback: 'https://csrservice-7670-dev.twil.io/checkCallbackStatus',
+  //   statusCallbackMethod: 'POST'
+  // });
 
   // res.type("text/xml");
     res.type("text/plain");
-  res.send(twiml.toString());
+  // res.send(twiml.toString());
+  res.send(token)
 	
   // const jwtPayload = { callSid: req.body.callsid };
   // const token = generateStreamToken(jwtPayload);
