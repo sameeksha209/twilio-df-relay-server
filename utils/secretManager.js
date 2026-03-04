@@ -58,7 +58,7 @@ async function loadSecrets() {
     ]);
 
     secretsCache = { JWT_SECRET };
-    console.log(`[SecretManager] Secrets loaded and cached successfully: ${secretsCache}`);
+    console.log(`[SecretManager] Secrets loaded and cached successfully: ${JSON.stringify(secretsCache)}`);
 
     return secretsCache;
   } catch (err) {

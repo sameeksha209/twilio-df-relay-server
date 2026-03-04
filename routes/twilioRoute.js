@@ -19,7 +19,7 @@ router.post("/call-start", async (req, res) => {
     const twiml = new twilio.twiml.VoiceResponse(); // ✅ MOVE HERE
 
     const jwtPayload = { callSid: req.body.CallSid };
-    const token = generateStreamToken(jwtPayload);
+    const token = await generateStreamToken(jwtPayload);
 
     // const connect = twiml.connect();
     // connect.stream({
@@ -32,7 +32,7 @@ router.post("/call-start", async (req, res) => {
     // res.type("text/xml");
     res.type("text/plain");
     // res.send(twiml.toString());
-    res.send(token)
+    res.send(token);
 
     // const jwtPayload = { callSid: req.body.callsid };
     // const token = generateStreamToken(jwtPayload);
@@ -63,7 +63,8 @@ router.post("/call-start", async (req, res) => {
     // res.set("Content-Type", "text/xml");
     // res.send(twiml.toString());
   } catch (error) {
-    console.log(error)
+    console.log('Error in call-start webhook: ', error);
+    res.status(500).send("Internal Server Error");
   };
 });
 
@@ -81,7 +82,9 @@ router.post('/checkCallbackStatus', (req, res) => {
 });
 
 async function generateStreamToken(payload) {
+  console.log("[Token] Generating token...");
   const secrets = await loadSecrets();
+  console.log("[Token] Secrets loaded:", Object.keys(secrets));
   const { JWT_SECRET } = secrets;
   return jwt.sign(
     payload,
