@@ -60,7 +60,7 @@ router.post("/call-start", async (req, res) => {
     console.log(`[${callSid}] send TwiML`, twiml.toString());
     // res.send('<?xml version="1.0" encoding="UTF-8"?><Response><Say>Hello</Say></Response>');
     const end = Date.now(); // End time after sending response
-    console.log(`[${new Date().toISOString()}] TwiML sent. Duration: ${end - start} ms`);
+    console.log(`[${callSid}] TwiML sent. Duration: ${end - start} ms`);
     // res.set("Content-Type", "text/xml");
     // res.send(twiml.toString());
   } catch (error) {
