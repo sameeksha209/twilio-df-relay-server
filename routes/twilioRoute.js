@@ -11,15 +11,16 @@ router.get("/", (req, res) => res.send("send successfully"));
 router.get("/call-start", (req, res) => res.send("OK"));
 
 router.post("/call-start", async (req, res) => {
-  console.log("Twilio call-start webhook hit", req.body, req.body.CallSid)
+  console.log(`[${callSid}] Twilio call-start Webhook hit`, req.body);
+  const callSid = req.body.CallSid;
+
   try {
-    const start = Date.now(); // Start time
 
-    console.log(`[${new Date().toISOString()}] Webhook hit`);
-    const twiml = new twilio.twiml.VoiceResponse(); // ✅ MOVE HERE
+    const twiml = new twilio.twiml.VoiceResponse();
+    const jwtPayload = { callSid };
+    
+    const token = await generateStreamToken(jwtPayload, callSid);
 
-    const jwtPayload = { callSid: req.body.CallSid };
-    const token = await generateStreamToken(jwtPayload);
 
     // const connect = twiml.connect();
     // connect.stream({
@@ -56,14 +57,14 @@ router.post("/call-start", async (req, res) => {
     //   <Say>Streaming started!</Say>
     // </Response>
     // `;
-    console.log('send twiml', twiml.toString());
+    console.log(`[${callSid}] send TwiML`, twiml.toString());
     // res.send('<?xml version="1.0" encoding="UTF-8"?><Response><Say>Hello</Say></Response>');
     const end = Date.now(); // End time after sending response
     console.log(`[${new Date().toISOString()}] TwiML sent. Duration: ${end - start} ms`);
     // res.set("Content-Type", "text/xml");
     // res.send(twiml.toString());
   } catch (error) {
-    console.log('Error in call-start webhook: ', error);
+    console.error(`[${callSid}] Error in call-start webhook:`, error);
     res.status(500).send("Internal Server Error");
   };
 });
@@ -81,10 +82,10 @@ router.post('/checkCallbackStatus', (req, res) => {
   res.send('ok');
 });
 
-async function generateStreamToken(payload) {
-  console.log("[Token] Generating token...");
-  const secrets = await loadSecrets();
-  console.log("[Token] Secrets loaded:", Object.keys(secrets));
+async function generateStreamToken(payload, callSid) {
+  console.log(`[${callSid}] [Token] Generating token...`);
+  const secrets = await loadSecrets(callSid);
+  console.log(`[${callSid}] [Token] Secrets loaded:`, Object.keys(secrets));
   const { JWT_SECRET } = secrets;
   return jwt.sign(
     payload,
