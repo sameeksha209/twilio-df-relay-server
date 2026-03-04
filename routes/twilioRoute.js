@@ -15,7 +15,7 @@ router.post("/call-start", async (req, res) => {
   console.log(`[${callSid}] Twilio call-start Webhook hit`, req.body);
 
   try {
-
+    const start = Date.now();
     const twiml = new twilio.twiml.VoiceResponse();
     const jwtPayload = { callSid };
 
