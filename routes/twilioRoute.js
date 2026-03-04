@@ -11,14 +11,14 @@ router.get("/", (req, res) => res.send("send successfully"));
 router.get("/call-start", (req, res) => res.send("OK"));
 
 router.post("/call-start", async (req, res) => {
-  console.log(`[${callSid}] Twilio call-start Webhook hit`, req.body);
   const callSid = req.body.CallSid;
+  console.log(`[${callSid}] Twilio call-start Webhook hit`, req.body);
 
   try {
 
     const twiml = new twilio.twiml.VoiceResponse();
     const jwtPayload = { callSid };
-    
+
     const token = await generateStreamToken(jwtPayload, callSid);
 
 
